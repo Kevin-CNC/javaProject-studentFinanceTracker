@@ -1,4 +1,5 @@
 package com.financetracker;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
@@ -7,27 +8,33 @@ public class Menu {
         Scanner inputScan = new Scanner(System.in);
         boolean inMenu = true;
 
+        __showMenu__();
         while(inMenu){
-            __showMenu__();
-
-            int choice = inputScan.nextInt();
-            switch( choice ){ 
-                case 1: 
-                    System.out.println("Adding expense yes");
-                    break;
-                case 2: 
-                    System.out.println("view expenses yes");
-                    break;
-                case 3: 
-                    System.out.println("show total expenses yes");
-                    break;
-                case 4: 
-                    System.out.println("show critical expense yes");
-                    break;
-                default: 
-                    System.out.println("exiting yes");
-                    inMenu = false;
-                    break;
+            try{
+                int choice = inputScan.nextInt();
+                switch( choice ){ 
+                    case 1: 
+                        System.out.println("Adding expense yes");
+                        break;
+                    case 2: 
+                        System.out.println("view expenses yes");
+                        break;
+                    case 3: 
+                        System.out.println("show total expenses yes");
+                        break;
+                    case 4: 
+                        System.out.println("show critical expense yes");
+                        break;
+                    default: 
+                        System.out.println("exiting yes");
+                        inMenu = false;
+                        break;
+                }
+            }
+            /* nextInt scan can throw this exception in case the user puts anything that isn't an int
+            so we gracefully handle it to keep the program running */
+            catch (InputMismatchException wrongInpType){
+                System.out.println("Invalid choice! Please choose again.");
             }
 
         }
