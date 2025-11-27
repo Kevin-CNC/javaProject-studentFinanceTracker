@@ -31,6 +31,8 @@ public class Menu {
             }
 
         }
+    
+        inputScan.close();
     }
 
 
