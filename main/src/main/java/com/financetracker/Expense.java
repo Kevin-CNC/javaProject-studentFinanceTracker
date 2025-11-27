@@ -8,11 +8,11 @@ public class Expense {
     protected Date dateOfExpense;
 
     // Constructor for expense class
-    public Expense(String given_expTitle, String given_expDescription, double given_expAmount, Date given_dateOfExpense ){
-        expTitle = given_expTitle;
-        expDescription = given_expDescription;
-        expAmount = given_expAmount;
-        dateOfExpense = given_dateOfExpense;
+    public Expense(String expTitle, String expDescription, double expAmount, Date dateOfExpense ){
+        this.expTitle = expTitle;
+        this.expDescription = expDescription;
+        this.expAmount = expAmount;
+        this.dateOfExpense = dateOfExpense;
     }
 
     // Getters and setters:
