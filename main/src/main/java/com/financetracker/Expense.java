@@ -17,7 +17,7 @@ public class Expense {
 
     // Getters and setters:
     public String getTitle(){
-        return expTitle;
+        return this.expTitle;
     }
 
     public void setTitle(String newValue){
@@ -29,7 +29,7 @@ public class Expense {
     }
 
     public void setDesc(String newValue){
-        expDescription = newValue;
+       expDescription = newValue;
     }
 
     public double getAmount(){
