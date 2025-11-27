@@ -1,0 +1,61 @@
+# Maven
+/target/
+/**/target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# Compiled class files
+*.class
+
+# Package files
+*.jar
+*.war
+*.ear
+*.nar
+
+# Logs and reports
+*.log
+hs_err_pid*
+surefire-reports/
+jacoco.exec
+coverage/
+
+# IDEs and editors
+/.idea/
+/*.iml
+/*.iws
+/.vscode/
+/.project
+.classpath
+/.settings/
+/nbproject/private/
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Temporary and backup files
+*~
+*.swp
+*.swo
+*.tmp
+
+# Environment and local config
+.env
+.env.local
+local.properties
+
+# Generated sources
+generated-sources/
+target/
+
+# Include the gitignore file itself
+.gitignore
