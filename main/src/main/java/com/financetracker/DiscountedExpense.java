@@ -1,12 +1,10 @@
 package com.financetracker;
 
-import java.sql.Date;
-
 public class DiscountedExpense extends Expense {
     protected double expenseDiscount;
 
     // Since it's a subclass of expense, initialise the parent class' constructor
-    public DiscountedExpense(String expTitle, String expDescription, double expAmount, Date dateOfExpense, double expenseDiscount){
+    public DiscountedExpense(String expTitle, String expDescription, double expAmount, String dateOfExpense, double expenseDiscount){
         super(expTitle, expDescription, expAmount, dateOfExpense);
         this.expenseDiscount = expenseDiscount;
     }

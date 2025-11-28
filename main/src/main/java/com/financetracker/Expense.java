@@ -1,14 +1,12 @@
 package com.financetracker;
-import java.sql.Date;
 
 public class Expense {
     // Define the protected attributes
-    protected String expTitle,expDescription;
+    protected String expTitle,expDescription,dateOfExpense;
     protected double expAmount;
-    protected Date dateOfExpense;
 
     // Constructor for expense class
-    public Expense(String expTitle, String expDescription, double expAmount, Date dateOfExpense ){
+    public Expense(String expTitle, String expDescription, double expAmount, String dateOfExpense ){
         this.expTitle = expTitle;
         this.expDescription = expDescription;
         this.expAmount = expAmount;
@@ -40,11 +38,11 @@ public class Expense {
         expAmount = newValue;
     }
 
-    public Date getDate(){
+    public String getDate(){
         return dateOfExpense;
     }
 
-    public void setAmount(Date newValue){
+    public void setAmount(String newValue){
         dateOfExpense = newValue;
     }
 
