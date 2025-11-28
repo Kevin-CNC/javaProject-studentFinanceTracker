@@ -1,8 +1,13 @@
 package com.financetracker;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Menu {
+    /* Holders for expenses to be added via the menu
+    Directly using the object type as we will keep both Expense and DiscountExpense objects in the same array */
+    private ArrayList<Object> studentExpenses = new ArrayList<Object>();
+
     // Constructor that fires the menu loop upon program start.
     public Menu(){
         Scanner inputScan = new Scanner(System.in);
