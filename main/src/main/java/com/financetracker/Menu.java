@@ -18,8 +18,10 @@ public class Menu {
             try{
                 int choice = inputScan.nextInt();
                 switch( choice ){ 
-                    case 1: 
-                        System.out.println("Adding expense yes");
+                    case 1:
+                        Object resultExpense =
+
+                        __AddExpense__();
                         break;
                     case 2: 
                         System.out.println("view expenses yes");
@@ -48,9 +50,47 @@ public class Menu {
     }
 
 
+    // Expense addition functions; Handles both discounted and non-discounted expenses
+
+    private static Object __ChooseExpense__(Scanner inputScan){
+        /* Handles choice of expense between discounted and standard, along with gathering
+        the required inputs to initialise both classes */
+
+        System.out.println("Choose what type of expense you'd like to add:\n1* Standard Expense\n2* Discounted Expense");
+        while(true) {
+            inputScan.next(); // Clear the scanner
+
+            try{
+                int expenseChoice = inputScan.nextInt();
+                
+                if( expenseChoice > 2 || expenseChoice < 1 ){
+                    System.out.println("Invalid choice, please choose between said expenses.");
+                }else if( expenseChoice == 2 ){
+                    
+
+
+
+                }else if( expenseChoice == 1 ){
+
+                }
+            }
+            catch (InputMismatchException wrongInpType){
+            System.out.println("Invalid choice, please choose between said expenses.");
+            }
+
+        }
+
+    }
+
+    private static void __AddExpense__(){
+    }
+
+
+
+
     /* Modularise menu showing to avoid lengthy code in the main
     system loop */
-    public static void __showMenu__(){
+    private static void __showMenu__(){
         System.out.println("=-=-= Welcome to the student expense manager! =-=-=\n"+
         "Please use the following options to interact with\n"+
         "the program:\n"+
