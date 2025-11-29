@@ -26,7 +26,7 @@ public class DiscountedExpense extends Expense {
 
     // Methods that need to be overriden to adapt to the discount
     @Override public double getAmount(){
-        return expAmount;
+        return expAmount * (1 - (expenseDiscount/100));
     }
 
     @Override public String getExpenseInfo(){
