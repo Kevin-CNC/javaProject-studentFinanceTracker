@@ -20,7 +20,7 @@ public class Menu {
                 switch( choice ){ 
                     case 1:
                          __ChooseExpense__(inputScan);
-                         __showMenu__();            
+                         __showMenu__();
                         break;
                     case 2: 
                         System.out.println("view expenses yes");
@@ -31,9 +31,12 @@ public class Menu {
                     case 4: 
                         System.out.println("show critical expense yes");
                         break;
-                    default: 
+                    case 5: 
                         System.out.println("exiting yes");
                         inMenu = false;
+                        break;
+                    default:
+                        System.out.println("Unrecognised choice, try again.");
                         break;
                 }
             }
@@ -66,11 +69,19 @@ public class Menu {
                 }else if( expenseChoice == 2 ){
                     System.out.println("Adding: Discounted expense");
                     String givenTitle,givenDesc,givenDate;
-                    double givenAmount = 0;
+                    double givenAmount, givenDiscount;
 
                     while(true){
-                        System.out.print("Enter the name of your expense: ");
-                        givenTitle = inputScan.nextLine();
+                        
+                        while( true ){
+                            System.out.print("Enter the name of your expense: ");
+                            givenTitle = inputScan.nextLine();
+
+                            // Not an optional field, it must be filled in.
+                            if (!givenTitle.isEmpty() || !givenTitle.isBlank()){
+                                break;
+                            }
+                        }
                         
 
                         System.out.print("Enter a description for your expense (Optional): ");
@@ -106,6 +117,36 @@ public class Menu {
 
                         
                         inputScan.nextLine(); // Clear the scanner
+
+
+                        System.out.print("Enter the amount of the discount (0-100): ");
+                        try{
+                            givenDiscount = inputScan.nextDouble();
+                            
+                            if ( givenDiscount < 0 || givenDiscount > 100 ){
+                                throw new InputMismatchException() ;
+                            }
+                        
+                            // Automatically catch and handle if user enters either a non-digit or anything below 0.
+                        } catch (InputMismatchException e){
+                            System.out.print("Invalid discount amount, try again: ");
+                            while(true){
+                                inputScan.nextLine(); // Clear the scanner
+
+                                try{
+                                    givenDiscount = inputScan.nextDouble();
+                                    if ( givenDiscount < 0 || givenDiscount > 100 ){
+                                        throw new InputMismatchException() ;
+                                    }
+
+                                    break;
+
+                                }catch (InputMismatchException n){
+                                    System.out.print("Invalid discount amount, try again: ");
+                                }
+                            }
+                        }
+
 
                         System.out.print("Enter the date of your expense in the format day-month-year: ");
                         try{
@@ -146,7 +187,7 @@ public class Menu {
 
 
                         // Temporary expense object, won't get added unless the user confirms.
-                        Expense tempExpense = new Expense(givenTitle, givenDesc, givenAmount, givenDate);
+                        DiscountedExpense tempExpense = new DiscountedExpense(givenTitle, givenDesc, givenAmount, givenDate, givenDiscount);
                         System.out.println("=-=-=-=-=-=-=-=-=-=\n"+tempExpense.getExpenseInfo()+"\n=-=-=-=-=-=-=-=-=-=");
 
                         System.out.println("Please enter 1 to confirm the expense & exit, 2 To confirm the expense and make a new one, 3 to retry, 0 to exit.");
@@ -189,8 +230,15 @@ public class Menu {
                     double givenAmount = 0;
 
                     while(true){
-                        System.out.print("Enter the name of your expense: ");
-                        givenTitle = inputScan.nextLine();
+                        while( true ){
+                            System.out.print("Enter the name of your expense: ");
+                            givenTitle = inputScan.nextLine();
+
+                            // Not an optional field, it must be filled in.
+                            if (!givenTitle.isEmpty() || !givenTitle.isBlank()){
+                                break;
+                            }
+                        }
                         
 
                         System.out.print("Enter a description for your expense (Optional): ");
