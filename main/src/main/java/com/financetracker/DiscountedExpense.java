@@ -1,12 +1,10 @@
 package com.financetracker;
 
-import java.sql.Date;
-
 public class DiscountedExpense extends Expense {
     protected double expenseDiscount;
 
     // Since it's a subclass of expense, initialise the parent class' constructor
-    public DiscountedExpense(String expTitle, String expDescription, double expAmount, Date dateOfExpense, double expenseDiscount){
+    public DiscountedExpense(String expTitle, String expDescription, double expAmount, String dateOfExpense, double expenseDiscount){
         super(expTitle, expDescription, expAmount, dateOfExpense);
         this.expenseDiscount = expenseDiscount;
     }
@@ -28,7 +26,7 @@ public class DiscountedExpense extends Expense {
 
     // Methods that need to be overriden to adapt to the discount
     @Override public double getAmount(){
-        return expAmount;
+        return expAmount * (1 - (expenseDiscount/100));
     }
 
     @Override public String getExpenseInfo(){
