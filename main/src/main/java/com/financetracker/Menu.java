@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Menu {
     /* Holders for expenses to be added via the menu
     Made it an array list of Expense objects, as DiscountedExpense is a subclass of Expense, so it will fit into the same array list */
-    private ArrayList<Object> studentExpenses = new ArrayList<Object>();
+    private ArrayList<Expense> studentExpenses = new ArrayList<Expense>();
 
     // Constructor that fires the menu loop upon program start.
     public Menu(){
@@ -23,7 +23,8 @@ public class Menu {
                          __showMenu__();
                         break;
                     case 2: 
-                        System.out.println("view expenses yes");
+                        System.out.println("\n\nListing all expenses:\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+                        __viewAllExpenses__();
                         break;
                     case 3: 
                         System.out.println("show total expenses yes");
@@ -362,11 +363,16 @@ public class Menu {
 
     }
 
-    private void __AddExpense__(Object expense){
+    private void __AddExpense__(Expense expense){
         studentExpenses.add(expense);
     }
 
-
+    private void __viewAllExpenses__(){
+        // for each loop, every item in the expenses list array will be printed
+        for (Expense expense : studentExpenses){
+            System.out.println("=-=-=-=-=-=-=-=-=-=\n"+expense.getExpenseInfo()+"\n=-=-=-=-=-=-=-=-=-=");
+        }
+    }
 
 
     /* Modularise menu showing to avoid lengthy code in the main
