@@ -1,3 +1,5 @@
+// written by Kevin Caplescu - 240005297 - 02/12/2025
+
 package com.financetracker;
 import java.util.InputMismatchException;
 import java.util.Scanner;
