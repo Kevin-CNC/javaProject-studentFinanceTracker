@@ -42,7 +42,7 @@ public class Expense {
         return dateOfExpense;
     }
 
-    public void setAmount(String newValue){
+    public void setDate(String newValue){
         dateOfExpense = newValue;
     }
 

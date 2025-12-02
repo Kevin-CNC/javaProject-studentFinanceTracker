@@ -26,7 +26,10 @@ public class DiscountedExpense extends Expense {
 
     // Methods that need to be overriden to adapt to the discount
     @Override public double getAmount(){
-        return expAmount * (1 - (expenseDiscount/100));
+        double processedAmount =  expAmount * (1 - (expenseDiscount/100));
+        
+        // When calculating discount, might get 3+ decimals, hence Math.round helps round it up to 2 decimals max
+        return (Math.round(processedAmount*100) / 100);
     }
 
     @Override public String getExpenseInfo(){

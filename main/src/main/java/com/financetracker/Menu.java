@@ -23,17 +23,19 @@ public class Menu {
                          __showMenu__();
                         break;
                     case 2: 
-                        System.out.println("\n\nListing all expenses:\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
                         __viewAllExpenses__();
+                        __showMenu__();
                         break;
                     case 3: 
-                        System.out.println("show total expenses yes");
+                        __sumAllExpenses__();
+                        __showMenu__();
                         break;
                     case 4: 
-                        System.out.println("show critical expense yes");
+                        __printHighestExpense__();
+                        __showMenu__();
                         break;
                     case 5: 
-                        System.out.println("exiting yes");
+                        System.out.println("Thank you for using Student Expense Manager!\nCome back soon!");
                         inMenu = false;
                         break;
                     default:
@@ -67,18 +69,23 @@ public class Menu {
                 
                 if( expenseChoice > 2 || expenseChoice < 1 ){
                     System.out.println("Invalid choice, please choose between said expenses.");
-                }else if( expenseChoice == 2 ){
-                    System.out.println("Adding: Discounted expense");
+                }else {
+                    // Understand if the expense chosen is standard or not, and determine which fields to ask
+                    Boolean isStandard = (1 == expenseChoice);
+                    String name = isStandard?"Standard":"Discounted";
+                    System.out.println("Adding a "+name+" expense:");
+
+
                     String givenTitle,givenDesc,givenDate;
-                    double givenAmount, givenDiscount;
+                    double givenAmount, givenDiscount = 0;
 
                     while(true){
-                        
+                        // Name validation loop
                         while( true ){
                             System.out.print("Enter the name of your expense: ");
                             givenTitle = inputScan.nextLine();
 
-                            // Not an optional field, it must be filled in.
+                            // Not an optional field, it must be filled in
                             if (!givenTitle.isEmpty() || !givenTitle.isBlank()){
                                 break;
                             }
@@ -116,164 +123,41 @@ public class Menu {
                             }
                         }
 
-                        
-                        inputScan.nextLine(); // Clear the scanner
+                        // Not a standard expense, so it must also require the discount field
+                        // else just ignore
+                        if (!isStandard){
 
-
-                        System.out.print("Enter the amount of the discount (0-100): ");
-                        try{
-                            givenDiscount = inputScan.nextDouble();
+                            System.out.print("Enter the amount of the discount (0-100): ");
+                            try{
+                                givenDiscount = inputScan.nextDouble();
+                                
+                                if ( givenDiscount < 0 || givenDiscount > 100 ){
+                                    throw new InputMismatchException() ;
+                                }
                             
-                            if ( givenDiscount < 0 || givenDiscount > 100 ){
-                                throw new InputMismatchException() ;
-                            }
-                        
-                            // Automatically catch and handle if user enters either a non-digit or anything below 0.
-                        } catch (InputMismatchException e){
-                            System.out.print("Invalid discount amount, try again: ");
-                            while(true){
-                                inputScan.nextLine(); // Clear the scanner
+                                // Automatically catch and handle if user enters either a non-digit or anything below 0.
+                            } catch (InputMismatchException e){
+                                System.out.print("Invalid discount amount, try again: ");
+                                while(true){
+                                    inputScan.nextLine(); // Clear the scanner
 
-                                try{
-                                    givenDiscount = inputScan.nextDouble();
-                                    if ( givenDiscount < 0 || givenDiscount > 100 ){
-                                        throw new InputMismatchException() ;
+                                    try{
+                                        givenDiscount = inputScan.nextDouble();
+                                        if ( givenDiscount < 0 || givenDiscount > 100 ){
+                                            throw new InputMismatchException() ;
+                                        }
+
+                                        break;
+
+                                    }catch (InputMismatchException n){
+                                        System.out.print("Invalid discount amount, try again: ");
                                     }
-
-                                    break;
-
-                                }catch (InputMismatchException n){
-                                    System.out.print("Invalid discount amount, try again: ");
                                 }
                             }
+
                         }
 
 
-                        System.out.print("Enter the date of your expense in the format day-month-year: ");
-                        try{
-                            givenDate = inputScan.next();
-                            
-                            String[] fields = givenDate.split("-");
-                            if( fields.length == 1){
-                                throw new InputMismatchException("Couldn't split the string; Bad format.");
-                            }else if( Integer.parseInt(fields[0]) < 1 || Integer.parseInt(fields[1]) < 1 || Integer.parseInt(fields[2]) < 1 ){
-                                throw new InputMismatchException("One of the values provided are not high enough.");
-                            }else if( Integer.parseInt(fields[0]) > 31 || Integer.parseInt(fields[1]) > 12){
-                                throw new InputMismatchException("Either day or month are too high.");
-                            }
-
-                            
-                        }catch (InputMismatchException e){
-                            System.out.print("Invalid date format. Try again: ");
-                            while(true){
-                                try{
-                                    givenDate = inputScan.next();
-                            
-                                    String[] fields = givenDate.split("-");
-                                    if( fields.length == 1){
-                                        throw new InputMismatchException("Couldn't split the string; Bad format.");
-                                    }else if( Integer.parseInt(fields[0]) < 1 || Integer.parseInt(fields[1]) < 1 || Integer.parseInt(fields[2]) < 1 ){
-                                        throw new InputMismatchException("One of the values provided are not high enough.");
-                                    }else if( Integer.parseInt(fields[0]) > 31 || Integer.parseInt(fields[1]) > 12){
-                                        throw new InputMismatchException("Either day or month are too high.");
-                                    }
-
-                                }catch (InputMismatchException n){
-                                    System.out.print("Invalid date format:" + n.getMessage() + ". Try again: ");
-                                }
-                            }
-                        }
-
-                        inputScan.nextLine(); // Clear the scanner
-
-
-                        // Temporary expense object, won't get added unless the user confirms.
-                        DiscountedExpense tempExpense = new DiscountedExpense(givenTitle, givenDesc, givenAmount, givenDate, givenDiscount);
-                        System.out.println("=-=-=-=-=-=-=-=-=-=\n"+tempExpense.getExpenseInfo()+"\n=-=-=-=-=-=-=-=-=-=");
-
-                        System.out.println("Please enter 1 to confirm the expense & exit, 2 To confirm the expense and make a new one, 3 to retry, 0 to exit.");
-                        int confirmChoice;
-                        
-                        try{
-                            confirmChoice = inputScan.nextInt();
-
-                            if( confirmChoice < 0 || confirmChoice > 2 ){
-                                throw new InputMismatchException();
-                            }
-
-                            // Actual choice logic
-                            if ( confirmChoice == 0 ){
-                                // Simply exit by breaking out of the loop
-                                break;
-                            } else if( confirmChoice == 1 ){
-                                // Add and break out
-                                __AddExpense__(tempExpense);
-                                break;
-                            } else if( confirmChoice == 2 ){
-                                // Add and continue
-                                __AddExpense__(tempExpense);
-                                continue;
-                            } else if( confirmChoice == 3 ){
-                                // User wants to retry, so just skip current iteration  
-                                continue;
-                            }
-
-                        } catch (InputMismatchException e){
-                            inputScan.nextLine(); // Clear the scanner
-                            System.out.print("Invalid choice, try again.");
-                            continue;
-                        }
-                    }
-
-                }else if( expenseChoice == 1 ){
-                    System.out.println("Adding: Standard expense");
-                    String givenTitle,givenDesc,givenDate;
-                    double givenAmount = 0;
-
-                    while(true){
-                        while( true ){
-                            System.out.print("Enter the name of your expense: ");
-                            givenTitle = inputScan.nextLine();
-
-                            // Not an optional field, it must be filled in.
-                            if (!givenTitle.isEmpty() || !givenTitle.isBlank()){
-                                break;
-                            }
-                        }
-                        
-
-                        System.out.print("Enter a description for your expense (Optional): ");
-                        givenDesc = inputScan.nextLine();
-
-                        System.out.print("Enter the amount of the expense: ");
-                        try{
-                            givenAmount = inputScan.nextDouble();
-                            
-                            if ( givenAmount < 0 ){
-                                throw new InputMismatchException() ;
-                            }
-                        
-                            // Automatically catch and handle if user enters either a non-digit or anything below 0.
-                        } catch (InputMismatchException e){
-                            System.out.print("Invalid amount expense, try again: ");
-                            while(true){
-                                inputScan.nextLine(); // Clear the scanner
-
-                                try{
-                                    givenAmount = inputScan.nextDouble();
-                                    if ( givenAmount < 0 ){
-                                        throw new InputMismatchException() ;
-                                    }
-
-                                    break;
-
-                                }catch (InputMismatchException n){
-                                    System.out.print("Invalid amount expense, try again: ");
-                                }
-                            }
-                        }
-
-                        
                         inputScan.nextLine(); // Clear the scanner
 
                         System.out.print("Enter the date of your expense in the format day-month-year: ");
@@ -305,6 +189,10 @@ public class Menu {
                                         throw new InputMismatchException("Either day or month are too high.");
                                     }
 
+                                    // if all checks pass, just break out!
+                                    break;
+
+
                                 }catch (InputMismatchException n){
                                     System.out.print("Invalid date format:" + n.getMessage() + ". Try again: ");
                                 }
@@ -315,10 +203,19 @@ public class Menu {
 
 
                         // Temporary expense object, won't get added unless the user confirms.
-                        Expense tempExpense = new Expense(givenTitle, givenDesc, givenAmount, givenDate);
+                        Expense tempExpense;
+
+                        // creating the object again related to the user's previous type choice
+                        if( isStandard ){
+                            tempExpense = new Expense(givenTitle, givenDesc, givenAmount, givenDate);
+                        }else{
+                            tempExpense = new DiscountedExpense(givenTitle, givenDesc, givenAmount, givenDate, givenDiscount);
+                        }
+
+                        
                         System.out.println("=-=-=-=-=-=-=-=-=-=\n"+tempExpense.getExpenseInfo()+"\n=-=-=-=-=-=-=-=-=-=");
 
-                        System.out.println("Please enter 1 to confirm the expense & exit, 2 To confirm the expense and make a new one, 3 to retry, 0 to exit.");
+                        System.out.println("Please enter 1 to confirm the expense & exit, 2 To confirm the expense and make a new one of the same type, 3 to retry, 0 to exit.");
                         int confirmChoice;
                         
                         try{
@@ -339,9 +236,13 @@ public class Menu {
                             } else if( confirmChoice == 2 ){
                                 // Add and continue
                                 __AddExpense__(tempExpense);
+
+                                inputScan.nextLine(); // clear scanner
                                 continue;
                             } else if( confirmChoice == 3 ){
                                 // User wants to retry, so just skip current iteration  
+
+                                inputScan.nextLine(); // clear scanner
                                 continue;
                             }
 
@@ -368,12 +269,59 @@ public class Menu {
     }
 
     private void __viewAllExpenses__(){
+        System.out.println("\n\nListing all expenses:\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+
         // for each loop, every item in the expenses list array will be printed
         for (Expense expense : studentExpenses){
             System.out.println("=-=-=-=-=-=-=-=-=-=\n"+expense.getExpenseInfo()+"\n=-=-=-=-=-=-=-=-=-=");
         }
     }
 
+    private void __printHighestExpense__(){
+        // Implement a simple On algorithm to look through every expense, compare its' amount to the next one and swap if higher
+
+
+        if (studentExpenses.size() < 1) {
+            System.out.println("\n\n=-=-=-=-=-=-=-=-=-=\nNo highest available: No expenses\n=-=-=-=-=-=-=-=-=-=\n\n");
+
+        }else{
+            Expense currentTarget = studentExpenses.get(0); // Start with the first item
+
+            for (Expense expense : studentExpenses){
+                if( expense == currentTarget ){
+                    continue; // Same expense, skip the iteration
+                }
+
+                // Just assume that we only swap if it's higher than the last
+                if (currentTarget.getAmount() < expense.getAmount()){
+                    currentTarget = expense;
+                }
+            }
+
+            System.out.println("\n\n=-=-=-=-=-=-=-=-=-=\nThe highest expense is:\n"+currentTarget.getExpenseInfo()+"\n=-=-=-=-=-=-=-=-=-=\n\n");
+        }
+
+    }
+
+    private void __sumAllExpenses__(){
+        // first check if there are any expenses to begin with
+        if (studentExpenses.size() < 1) {
+            System.out.println("=-=-=-=-=-=-=-=-=-=\nNo total available: No expenses\n=-=-=-=-=-=-=-=-=-=");
+
+        }else{
+
+            double sumAccumulator = 0;
+
+            // Using a simple loop to add every expense object's "expAmount" to the sum accumulator var
+            // note: discounted expenses are added with discount
+            for (Expense expense : studentExpenses){
+                sumAccumulator = sumAccumulator + expense.getAmount() ;
+            }
+
+            System.out.println("=-=-=-=-=-=-=-=-=-=\nYour current total is: £"+ sumAccumulator +"\n=-=-=-=-=-=-=-=-=-=");
+
+        }
+    }
 
     /* Modularise menu showing to avoid lengthy code in the main
     system loop */
@@ -384,8 +332,8 @@ public class Menu {
         "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n"+
         "            1 * Add a new expense\n"+
         "            2 * View all expenses\n" +
-        "            3 * Show total expense\n" +
-        "            4 * Show critical expenses\n" +
+        "            3 * Show total expenses\n" +
+        "            4 * Show highest expense\n" +
         "            5 * Exit\n");
     }
 }
