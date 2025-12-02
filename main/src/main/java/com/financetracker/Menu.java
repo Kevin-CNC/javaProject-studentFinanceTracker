@@ -282,7 +282,7 @@ public class Menu {
 
 
         if (studentExpenses.size() < 1) {
-            System.out.println("=-=-=-=-=-=-=-=-=-=\nNo highest available: No expenses\n=-=-=-=-=-=-=-=-=-=");
+            System.out.println("\n\n=-=-=-=-=-=-=-=-=-=\nNo highest available: No expenses\n=-=-=-=-=-=-=-=-=-=\n\n");
 
         }else{
             Expense currentTarget = studentExpenses.get(0); // Start with the first item
@@ -298,7 +298,7 @@ public class Menu {
                 }
             }
 
-            System.out.println("=-=-=-=-=-=-=-=-=-=\nThe highest expense is:\n"+currentTarget.getExpenseInfo()+"\n=-=-=-=-=-=-=-=-=-=");
+            System.out.println("\n\n=-=-=-=-=-=-=-=-=-=\nThe highest expense is:\n"+currentTarget.getExpenseInfo()+"\n=-=-=-=-=-=-=-=-=-=\n\n");
         }
 
     }
